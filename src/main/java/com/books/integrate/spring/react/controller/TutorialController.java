@@ -1,24 +1,16 @@
 package com.books.integrate.spring.react.controller;
 
-import java.util.*;
-
 import com.books.integrate.spring.react.model.Tutorial;
+import com.books.integrate.spring.react.repository.TutorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.books.integrate.spring.react.repository.TutorialRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -109,6 +101,7 @@ public class TutorialController {
 
 	}
 
+
 	@GetMapping("/tutorials/published")
 	public ResponseEntity<List<Tutorial>> findByPublished() {
 		try {
@@ -126,16 +119,11 @@ public class TutorialController {
 	//Metodo para buscar por precio
 	@GetMapping(path = "/tutorials/price")
 	public ResponseEntity<List<Tutorial>> findByPrice(@RequestParam("price") double price){
-		try {
-			List<Tutorial> tutorials = tutorialRepository.findByPrice(price);
-
-			if (tutorials.isEmpty()) {
+			List<Tutorial> theprice = tutorialRepository.findByPrice(price);
+			if(theprice.isEmpty()){
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-			return new ResponseEntity<>(tutorials, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-		}
+			return new ResponseEntity<> (theprice, HttpStatus.OK);
 	}
 
 }
