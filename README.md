@@ -3,4 +3,4 @@
 
 ### Se añade método para buscar por precio
 
-<img src="./imagenes/findByPrice.png" alt="Imagen de encuentra por precio" />
+<img src="src/main/java/imagenes/findByPrice.png" alt="Imagen de encuentra por precio" />
