@@ -123,4 +123,19 @@ public class TutorialController {
 		}
 	}
 
+	//Metodo para buscar por precio
+	@GetMapping(path = "/tutorials/price")
+	public ResponseEntity<List<Tutorial>> findByPrice(@RequestParam("price") double price){
+		try {
+			List<Tutorial> tutorials = tutorialRepository.findByPrice(price);
+
+			if (tutorials.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(tutorials, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+
 }
