@@ -51,7 +51,6 @@ public class TutorialController {
 		}
 	}
 
-
 	@PostMapping("/tutorials")
 	public ResponseEntity<Tutorial> createTutorial(@RequestBody Tutorial tutorial) {
 		try {
@@ -79,7 +78,25 @@ public class TutorialController {
 		}
 	}
 
-//HttpStatus
+	//Metodo para actualizar tutorial por titulo
+	@PutMapping("/tutorials/upd/{title}")
+	public ResponseEntity<Tutorial> updateTutorialByTitle(@PathVariable("title") String title, @RequestBody Tutorial tutorial) {
+		List<Tutorial> update = tutorialRepository.findByTitleContaining(title);
+		System.out.println("Probando que si encuentra el titulo: " + update);
+
+		try{
+			Tutorial _tutorial = update.get(0);
+			_tutorial.setTitle(tutorial.getTitle());
+			_tutorial.setDescription(tutorial.getDescription());
+			_tutorial.setPublished(tutorial.isPublished());
+			_tutorial.setPrice(tutorial.getPrice());
+			return new ResponseEntity<>(tutorialRepository.save(_tutorial), HttpStatus.OK);
+		}catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	//HttpStatus
 	@DeleteMapping("/tutorials/{id}")
 	public ResponseEntity<String> deleteTutorial(@PathVariable("id") long id) {
 		try {
@@ -137,5 +154,4 @@ public class TutorialController {
 			}
 			return new ResponseEntity<> (theprice, HttpStatus.OK);
 	}
-
 }
