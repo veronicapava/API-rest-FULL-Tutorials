@@ -101,6 +101,18 @@ public class TutorialController {
 
 	}
 
+	//Metodo para eliminar tutorial por titulo
+	@DeleteMapping("tutorials/title/{title}")
+	public ResponseEntity<String> deleteTutorialByTitle(@PathVariable("title") String title){
+		System.out.println("Probando que entra el titulo " + title);
+		try{
+			List<Tutorial> delete = tutorialRepository.findByTitleContaining(title);
+			tutorialRepository.deleteAll(delete);
+			return new ResponseEntity<>("Has deleted the tutorial: " + title, HttpStatus.OK);
+		} catch (Exception e){
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+	}
 
 	@GetMapping("/tutorials/published")
 	public ResponseEntity<List<Tutorial>> findByPublished() {
